@@ -17,12 +17,14 @@ import javafx.stage.Stage;
 public class HeadCoordinatorApprovalScreen {
     private Stage stage;
     private HeadLabCoordinator coordinator;
+     private LoginScreen loginScreen;
 
     private ObservableList<User> pendingList;
 
-    public HeadCoordinatorApprovalScreen(Stage stage, HeadLabCoordinator coordinator) {
+    public HeadCoordinatorApprovalScreen(Stage stage, HeadLabCoordinator coordinator, LoginScreen loginScreen) {
         this.stage = stage;
         this.coordinator = coordinator;
+        this.loginScreen = loginScreen;
         this.pendingList = FXCollections.observableArrayList(coordinator.getPendingApprovals());
     }
 
@@ -62,9 +64,11 @@ public class HeadCoordinatorApprovalScreen {
                 new Alert(Alert.AlertType.INFORMATION, "User rejected!").show();
             }
         });
+         Button backBtn = new Button("Back");
+        backBtn.setOnAction(e -> loginScreen.show());
 
         HBox buttons = new HBox(10, approveBtn, rejectBtn);
-        VBox layout = new VBox(10, title, listView, buttons);
+        VBox layout = new VBox(10, title, listView, buttons, backBtn);
         layout.setStyle("-fx-padding: 15;");
 
         stage.setScene(new Scene(layout, 450, 400));

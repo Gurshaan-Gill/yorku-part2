@@ -54,7 +54,7 @@ public class LoginScreen {
 
                 if (type.equals("head coordinator")) {
                     HeadCoordinatorApprovalScreen approvalScreen =
-                            new HeadCoordinatorApprovalScreen(stage, HeadLabCoordinator.getInstance());
+                            new HeadCoordinatorApprovalScreen(stage, HeadLabCoordinator.getInstance(),this);
                     approvalScreen.show();
 
                 } else if (type.equals("lab_manager")) {

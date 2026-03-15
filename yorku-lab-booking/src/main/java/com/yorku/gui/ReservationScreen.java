@@ -43,6 +43,9 @@ public class ReservationScreen {
         hoursField.setPromptText("Hours");
 
         Button reserveBtn = new Button("Reserve");
+        Button cancelBtn = new Button("Cancel Booking");
+        Button extendBtn = new Button("Extend Booking");
+
         reserveBtn.setOnAction(e -> {
         try {
         String selected = equipmentList.getValue();
@@ -61,10 +64,48 @@ public class ReservationScreen {
 
         new Alert(Alert.AlertType.INFORMATION, "Reservation successful!").show();
 
-        } catch (Exception ex) {
+    } catch (Exception ex) {
         new Alert(Alert.AlertType.ERROR, "Reservation failed").show();
-        }
-    });
+    }
+        cancelBtn.setOnAction(eh ->{
+            String selected = equipmentList.getValue();
+            if (selected == null) {
+                new Alert(Alert.AlertType.ERROR, "Select equipment").show();
+                return;
+            }
+
+            String eqId = selected.split(" - ")[0];
+            Equipment eq = labManager.getEquipmentById(eqId);
+
+            BookingFacade booking = new BookingFacade();
+            booking.cancelReservation(user, eq); // assumes you implement cancelReservation in BookingFacade
+
+            new Alert(Alert.AlertType.INFORMATION, "Booking canceled!").show();
+        });
+
+        extendBtn.setOnAction(es -> {
+            String selected = equipmentList.getValue();
+            if (selected == null) {
+                new Alert(Alert.AlertType.ERROR, "Select equipment").show();
+                return;
+            }
+
+            String eqId = selected.split(" - ")[0];
+            Equipment eq = labManager.getEquipmentById(eqId);
+
+            try {
+                int extraHours = Integer.parseInt(hoursField.getText());
+                BookingFacade booking = new BookingFacade();
+                booking.extendReservation(user, eq, extraHours); // implement extendReservation in BookingFacade
+
+                new Alert(Alert.AlertType.INFORMATION, "Booking extended!").show();
+            } catch (NumberFormatException ex) {
+                new Alert(Alert.AlertType.ERROR, "Enter valid number of hours").show();
+            }
+        });
+
+
+});
 
         Button backBtn = new Button("Back");
         backBtn.setOnAction(e -> loginScreen.show());
