@@ -10,8 +10,8 @@ import com.yorku.coordinator.HeadLabCoordinator;
 import com.yorku.coordinator.LabManager;
 import com.yorku.users.PasswordValidator;
 import com.yorku.users.User;
-import com.yorku.users.User.Status;
 import com.yorku.users.UserFactory;
+import com.yorku.users.UserRegistry;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -96,25 +96,16 @@ public class LoginScreen {
             showError("Email is required");
             return;
         }
-
         if (password == null || password.trim().isEmpty()) {
             showError("Password is required");
             return;
         }
-
         if (id == null || id.trim().isEmpty()) {
             showError("ID is required");
             return;
         }
-
         if (type == null) {
             showError("Select a user type");
-            return;
-        }
-
-        // ----------- PASSWORD VALIDATION (Requirement 1) -----------
-        if (!PasswordValidator.isValid(password)) {
-            showError("Password must contain uppercase, lowercase, number, and symbol.");
             return;
         }
 
@@ -124,33 +115,53 @@ public class LoginScreen {
                 showError("Unauthorized Head Coordinator");
                 return;
             }
-
             HeadCoordinatorApprovalScreen approvalScreen =
-                    new HeadCoordinatorApprovalScreen(stage, HeadLabCoordinator.getInstance(), this);
+                new HeadCoordinatorApprovalScreen(stage, HeadLabCoordinator.getInstance(), this);
             approvalScreen.show();
             return;
         }
 
-        // ----------- LAB MANAGER LOGIN (RESTRICTED) -----------
+        // ----------- LAB MANAGER LOGIN -----------
         if (type.equals("lab_manager")) {
-            // Only allow if already created by Head Coordinator
+            // Only the LabManager instance created by Head Coordinator can log in
+            if (labManager == null) {
+                showError("No Lab Manager account exists. Only Head Coordinator can create one.");
+                return;
+            }
+
+            if (!labManager.getEmail().equals(email) || !labManager.getPassword().equals(password)) {
+                showError("Incorrect Lab Manager credentials");
+                return;
+            }
+
             LabManagerScreen labScreen = new LabManagerScreen(stage, labManager, this);
             labScreen.show();
             return;
         }
 
-        // ----------- NORMAL USER CREATION (FACTORY PATTERN) -----------
-        User user = UserFactory.createUser(type, email, password, id);
 
-        // Assign pending approval if university affiliated
-        if (type.equals("student") || type.equals("faculty") || type.equals("researcher")) {
-            user.setStatus(Status.PENDING_APPROVAL);
-        } else {
-            user.setStatus(Status.APPROVED); // guests can skip approval
+        // ----------- CHECK IF USER EXISTS -----------
+        UserRegistry registry = UserRegistry.getInstance();
+        User user = registry.getUserByEmail(email);
+
+        if (user == null) {
+            // ----------- CREATE NEW USER IF NOT FOUND -----------
+            if (!PasswordValidator.isValid(password)) {
+                showError("Password must contain uppercase, lowercase, number, and symbol.");
+                return;
+            }
+
+            user = UserFactory.createUser(type, email, password, id);
+            try {
+                HeadLabCoordinator.getInstance().registerUser(user);
+            } catch (Exception ex) {
+                showError(ex.getMessage());
+                return;
+            }
         }
 
         // ----------- CHECK APPROVAL STATUS -----------
-        if (user.getStatus().equals(Status.PENDING_APPROVAL)) {
+        if (user.getStatus() == User.Status.PENDING_APPROVAL) {
             showError("Your account is pending approval by Head Coordinator.");
             return;
         }

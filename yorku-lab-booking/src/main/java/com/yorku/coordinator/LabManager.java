@@ -9,14 +9,16 @@ import java.util.Map;
 import com.yorku.equipment.Equipment;
 
 public class LabManager {
-    private String name;
+    private String email, password, id;
     private Map<String, Equipment> equipmentMap = new HashMap<>();
 
-    public LabManager(String name) {
-        this.name = name;
+    public LabManager(String email,String password,String id) {
+        this.email = email;
+         this.password = password;
+          this.id = id;
     }
 
-    public String getName() { return name; }
+    public String getName() { return email; }
 
     public void addEquipment(Equipment equipment) {
         equipmentMap.put(equipment.getId(), equipment);
@@ -63,5 +65,13 @@ public class LabManager {
     // Optional: return all equipment IDs for ComboBoxes
     public List<String> getAllEquipmentIds() {
         return new ArrayList<>(equipmentMap.keySet());
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

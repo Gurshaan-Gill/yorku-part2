@@ -15,7 +15,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         HeadLabCoordinator head = HeadLabCoordinator.getInstance();
-        labManager = head.generateLabManager("Alice"); // generates a LabManager
+        labManager = head.generateLabManager("Alice", "Alice@yorku.ca", "Alice123!@", "HC-01");
 
         LoginScreen login = new LoginScreen(stage,labManager);
         login.show();
