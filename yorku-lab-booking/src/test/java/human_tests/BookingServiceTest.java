@@ -1,5 +1,6 @@
-package com.yorku.booking;
+package human_tests;
 
+import com.yorku.booking.BookingService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

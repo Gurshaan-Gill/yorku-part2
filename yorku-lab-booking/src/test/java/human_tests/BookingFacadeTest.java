@@ -1,5 +1,6 @@
-package com.yorku.booking;
+package human_tests;
 
+import com.yorku.booking.BookingFacade;
 import com.yorku.equipment.Equipment;
 import com.yorku.users.Student;
 import org.junit.jupiter.api.BeforeEach;

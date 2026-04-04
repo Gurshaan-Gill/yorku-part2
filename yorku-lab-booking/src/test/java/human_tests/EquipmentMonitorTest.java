@@ -1,5 +1,6 @@
-package com.yorku.observer;
+package human_tests;
 
+import com.yorku.observer.EquipmentMonitor;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

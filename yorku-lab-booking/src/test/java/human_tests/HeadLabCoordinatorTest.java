@@ -1,5 +1,7 @@
-package com.yorku.coordinator;
+package human_tests;
 
+import com.yorku.coordinator.HeadLabCoordinator;
+import com.yorku.coordinator.LabManager;
 import com.yorku.users.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
