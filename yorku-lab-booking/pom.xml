@@ -105,9 +105,9 @@
                         <param>com.yorku.users.*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>AI_assistant.*Test</param>
+                        <!-- <param>AI_assistant.*Test</param> -->
                         <!-- <param>human_tests.*Test</param> -->
-                        <!-- <param>Randoop.*Test</param> -->
+                        <param>Randoop.*Test</param>
                     </targetTests>
                 </configuration>
             </plugin>
