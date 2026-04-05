@@ -97,13 +97,17 @@
                 <version>1.23.0</version>
                 <configuration>
                     <targetClasses>
-                        <param>com.yorku.*</param>
+                        <param>com.yorku.booking.*</param>
+                        <param>com.yorku.command.*</param>
+                        <param>com.yorku.coordinator.*</param>
+                        <param>com.yorku.epuipment.*</param>
+                        <param>com.yorku.observer.*</param>
+                        <param>com.yorku.users.*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>com.yorku.*Test</param>
                         <param>AI_assistant.*Test</param>
-                        <param>human_tests.*Test</param>
-                        <param>Randoop.*Test</param>
+                        <!-- <param>human_tests.*Test</param> -->
+                        <!-- <param>Randoop.*Test</param> -->
                     </targetTests>
                 </configuration>
             </plugin>
