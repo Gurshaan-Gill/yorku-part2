@@ -69,8 +69,3 @@ View detailed results in `target/pit-reports/index.html` after running PIT.
 - `targetTests`: Test classes to run (default: all test classes)
 - `mutators`: Types of mutations to apply
 - `threads`: Number of threads for parallel execution
-
-### Test Coverage Summary
-- **Line Coverage**: 38% (196/510 lines)
-- **Mutation Coverage**: 14% (32/235 mutants)
-- **Test Strength**: 47% (32/68 tests)
